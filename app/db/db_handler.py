@@ -71,6 +71,6 @@ class DatabaseHandler:
         except Exception as e:
             st.error(f"Failed to save database details: {e}")
             raise
-        finally:
-            self.cursor.close()
-            self.connection.close()
+        # finally:
+        #     self.cursor.close()
+        #     self.connection.close()

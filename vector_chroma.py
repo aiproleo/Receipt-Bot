@@ -35,8 +35,8 @@ def get_response_from_llm_vector(query="tables"):
 
         # Display sample documents using Streamlit
         if len(documents) > 0:
-            st.write("Sample Documents:")
-            for i in range(min(3, len(documents))):  # Display up to 3 documents
+            st.subheader("Original Documents:")
+            for i in range(min(5, len(documents))):  # Display up to 3 documents
                 st.write(f"Document {i + 1}:")
                 st.write(documents[i])
         else:

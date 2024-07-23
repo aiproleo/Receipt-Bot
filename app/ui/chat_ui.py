@@ -2,16 +2,18 @@ import streamlit as st
 
 
 class ChatUI:
-    def __init__(self, db_handler, llm_handler, vector_or_others):
+
+
+    def __init__(self, db_handler, llm_handler):
         self.db_handler = db_handler
         self.llm_handler = llm_handler
-        self.vector_or_others = vector_or_others
+        self.table_info: str = db_handler.get_db_schema()
+        
 
     def send_message(self, message):
-        respond_contents = self.llm_handler.get_sql_from_vector(message)
+        respond_contents = self.llm_handler.get_sql_from_vector(message, self.table_info)
 
         result = self.db_handler.execute_sql(respond_contents)
-
 
         result = result.replace("),", "),  \n")
 

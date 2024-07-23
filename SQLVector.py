@@ -19,12 +19,10 @@ utils.streamlit_components.streamlit_ui('🐬🦣 Chat with Vector🍃🦭')
 
 if __name__ == "__main__":
     
-    st.error('here')
     vector_chroma.get_response_from_llm_vector()
-    st.error('here2')
 
     db_handler = db_handler.DatabaseHandler()   # init: session_state add uri, with save() get unique_id.
     llm_handler = llm.llm_handler.LLMHandler()      # Initialize the language model handler with the OpenAI API key
     
-    app = ui.chat_ui.ChatUI(db_handler, llm_handler, 'chroma')   # Create an instance of the Streamlit UI and pass the handlers to it
+    app = ui.chat_ui.ChatUI(db_handler, llm_handler)   # Create an instance of the Streamlit UI and pass the handlers to it
     app.run()   # Run the Streamlit application

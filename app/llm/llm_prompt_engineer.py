@@ -2,33 +2,14 @@
 import streamlit as st
 import os
 
+from ..db import db_handler
+
 from langchain_core.messages import SystemMessage
 from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
-
-
-
-def sql_for_schema(query, chat_llm):
-    template = ChatPromptTemplate.from_messages(
-        [
-            SystemMessage(
-                content=(
-                    "You are an assistant who writes SQL queries."
-                    "Given the text below, write a SQL query that answers the user's question."
-                    "Prepend and append the SQL query with three backticks '```'"
-                    "Write select query whenever possible"
-                    f"Connection string to this database is {os.environ.get('POSTGRESQL_AI_URI')}"
-                )
-            ),
-            HumanMessagePromptTemplate.from_template("{text}"),
-        ]
-    )
-
-    answer = chat_llm(template.format_messages(text=query))
-    print(answer.content)
-    return answer.content
-
+from langchain_openai import OpenAI, ChatOpenAI, OpenAIEmbeddings
 
 def sql_for_vector(query, relevant_tables, table_info, chat_llm):
+
     template = ChatPromptTemplate.from_messages(
         [
             SystemMessage(
@@ -42,8 +23,10 @@ def sql_for_vector(query, relevant_tables, table_info, chat_llm):
                 )
             ),
             HumanMessagePromptTemplate.from_template("{text}"),
-
         ]
     )
+    chat_llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), temperature=0.4)
+
     answer = chat_llm(template.format_messages(text=query))
+
     return answer.content
